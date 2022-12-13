@@ -31,7 +31,6 @@ class PhotoSearchViewModel : ObservableObject{
                 dataString = dataString.substring(from: 14)
                 dataString = dataString.substring(too: dataString.count-1)
                 let model : PhotoModel = try JSONDecoder().decode(PhotoModel.self, from: Data(dataString.utf8))
-                //print(model)
                 DispatchQueue.main.async {
                     if(page == 1){
                         self.photoModel =  model

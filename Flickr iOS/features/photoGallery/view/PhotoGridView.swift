@@ -13,35 +13,37 @@ struct PhotoGridView: View {
     @Binding var photoList : [Photo]
     @State var searchWord = ""
     @Binding var refresh: Bool
+    @Binding var selectedPhoto : Photo?
     
     let columns = [
-          GridItem(.flexible(),spacing: 1),
-          GridItem(.flexible(),spacing: 1),
-          GridItem(.flexible(),spacing: 1),
-      ]
-      var body: some View {
-          ScrollView {
-              LazyVGrid(columns: columns, spacing: 1) {
-                  ForEach(photoList , id: \.self) { item in
-                      ImageWithURL("https://farm\(item.farm).staticflickr.com/\(item.server)/\(item.id)_\(item.secret)_m.jpg").onAppear{
-                          if(photoList.last  == item){
-                              if((photoModel?.photos.pages ?? 0)>(photoModel?.photos.page ?? 0)){
-                                  print("end")
-                                  refresh = false
-                                  viewModel.searchPhoto(searchWord: searchWord ,page: (photoModel?.photos.page ?? 0)+1)
-                              }
-                          }
-                      }
-                  }
-              }
-              .padding(.horizontal)
-          }
-          //.frame(maxHeight: 300)
-      }
+        GridItem(.flexible(),spacing: 1),
+        GridItem(.flexible(),spacing: 1),
+        GridItem(.flexible(),spacing: 1),
+    ]
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 1) {
+                ForEach(photoList , id: \.self) { item in
+                    Button(action : {
+                        //pass the photo to open in fullscreen
+                        selectedPhoto = item
+                    }){
+                        ImageWithURL("https://farm\(item.farm).staticflickr.com/\(item.server)/\(item.id)_\(item.secret)_m.jpg").onAppear{
+                            //check last item
+                            if(photoList.last  == item){
+                                if((photoModel?.photos.pages ?? 0)>(photoModel?.photos.page ?? 0)){
+                                    // loading start
+                                    refresh = false
+                                    // next page call
+                                    viewModel.searchPhoto(searchWord: searchWord ,page: (photoModel?.photos.page ?? 0)+1)
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
 }
-
-//struct PhotoGridView_Previews: PreviewProvider {
-//    static var previews: some View {
-//    PhotoGridView(photoModel: PhotoModel(from: ))
-//    }
-//}

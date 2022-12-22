@@ -1,5 +1,5 @@
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Flickr_logo.png/640px-Flickr_logo.png)
-# Flickr-iOS
+# Flickr-SwiftUI
 A photo gallery App using Flickr API, with search support and a detail page where the people can take a closer look to the photo.
 
 
